@@ -1,0 +1,299 @@
+if (`window -exists myWindow`) { deleteUI -window myWindow; }
+window -rtf true -title "Deform Cube Panel" myWindow;
+
+columnLayout;
+
+//Variables
+$boardShader1 = `shadingNode -asShader blinn -name "boardColour1"`;
+$boardShader2 = `shadingNode -asShader blinn -name "boardColour2"`;
+$boardShader3 = `shadingNode -asShader blinn -name "piecesColour1"`;
+$boardShader4 = `shadingNode -asShader blinn -name "piecesColour2"`;
+
+intSliderGrp -dragCommand "findValues" -minValue 0 -maxValue 5 -label "Adjust Columns" -field true ColDef;
+
+intSliderGrp -dragCommand "findValues" -minValue 0 -maxValue 5 -label "Adjust Rows" -field true RowDef;
+
+attrColorSliderGrp -at ($boardShader1+".color") -label "Board Color 1";
+
+attrColorSliderGrp -at ($boardShader2+".color")-label "Board Color 2";
+
+
+button -c "makeCubes($boardShader1,$boardShader2)" -label "Create Board";
+
+button -c "resetCubes($boardShader1,$boardShader2)" -label "Reset Board";
+
+attrColorSliderGrp -at ($boardShader3+".color") -label "Pieces Colour 1";
+
+attrColorSliderGrp -at ($boardShader4+".color")-label "Pieces Colour 2";
+
+button -c "colourPieces($boardShader3,$boardShader4)" -label "Colour Pieces";
+button -c "placePieces()" -label "Place Pieces";
+
+showWindow myWindow;
+
+
+proc makeCubes (string $shader1,string $shader2) {
+    string $tempName="";
+    int $count = 0;
+
+    for ($i=0;$i<8;$i++)
+    {
+        for ($j=0;$j<8;$j++)
+        {
+            $tempName = "myCube" + $i +$j;
+            polyCube -n $tempName;
+            if ( $count % 2 == 0 )
+                hyperShade -assign $shader1; 
+            else
+                hyperShade -assign $shader2; 
+            move -r ($j*1) 0 ($i*1);
+            $count ++;
+        }
+        $count ++;
+
+    }
+}
+
+
+proc colourPieces(string $shader3,string $shader4) {
+   // string $tempName="";
+    string $pieces0[] = `ls "Piece0*"`; 
+    select $pieces0;
+    hyperShade -assign $shader3; 
+
+    string $pieces1[] = `ls "Piece1*"`; 
+    select $pieces1;
+    hyperShade -assign $shader4; 
+
+}
+
+proc placePieces() {
+
+    setAttr ("Piece00"+".translateX") (getAttr ("myCube00.translateX"));
+    setAttr ("Piece00"+".translateY") (getAttr ("myCube00.translateY")+0.5);
+    setAttr ("Piece00"+".translateZ") (getAttr ("myCube00.translateZ"));
+
+    setAttr ("Piece01"+".translateX") (getAttr ("myCube01.translateX"));
+    setAttr ("Piece01"+".translateY") (getAttr ("myCube01.translateY")+0.5);
+    setAttr ("Piece01"+".translateZ") (getAttr ("myCube01.translateZ"));
+
+    setAttr ("Piece02"+".translateX") (getAttr ("myCube02.translateX"));
+    setAttr ("Piece02"+".translateY") (getAttr ("myCube02.translateY")+0.5);
+    setAttr ("Piece02"+".translateZ") (getAttr ("myCube02.translateZ"));
+
+    setAttr ("Piece03"+".translateX") (getAttr ("myCube03.translateX"));
+    setAttr ("Piece03"+".translateY") (getAttr ("myCube03.translateY")+0.5);
+    setAttr ("Piece03"+".translateZ") (getAttr ("myCube03.translateZ"));
+
+    setAttr ("Piece04"+".translateX") (getAttr ("myCube04.translateX"));
+    setAttr ("Piece04"+".translateY") (getAttr ("myCube04.translateY")+0.5);
+    setAttr ("Piece04"+".translateZ") (getAttr ("myCube04.translateZ"));
+
+    setAttr ("Piece05"+".translateX") (getAttr ("myCube05.translateX"));
+    setAttr ("Piece05"+".translateY") (getAttr ("myCube05.translateY")+0.5);
+    setAttr ("Piece05"+".translateZ") (getAttr ("myCube05.translateZ"));
+
+    setAttr ("Piece06"+".translateX") (getAttr ("myCube06.translateX"));
+    setAttr ("Piece06"+".translateY") (getAttr ("myCube06.translateY")+0.5);
+    setAttr ("Piece06"+".translateZ") (getAttr ("myCube06.translateZ"));
+
+    setAttr ("Piece07"+".translateX") (getAttr ("myCube07.translateX"));
+    setAttr ("Piece07"+".translateY") (getAttr ("myCube07.translateY")+0.5);
+    setAttr ("Piece07"+".translateZ") (getAttr ("myCube07.translateZ"));
+
+    setAttr ("Piece08"+".translateX") (getAttr ("myCube10.translateX"));
+    setAttr ("Piece08"+".translateY") (getAttr ("myCube10.translateY")+0.5);
+    setAttr ("Piece08"+".translateZ") (getAttr ("myCube10.translateZ"));
+
+    setAttr ("Piece09"+".translateX") (getAttr ("myCube11.translateX"));
+    setAttr ("Piece09"+".translateY") (getAttr ("myCube11.translateY")+0.5);
+    setAttr ("Piece09"+".translateZ") (getAttr ("myCube11.translateZ"));
+
+    setAttr ("Piece010"+".translateX") (getAttr ("myCube12.translateX"));
+    setAttr ("Piece010"+".translateY") (getAttr ("myCube12.translateY")+0.5);
+    setAttr ("Piece010"+".translateZ") (getAttr ("myCube12.translateZ"));
+
+    setAttr ("Piece011"+".translateX") (getAttr ("myCube13.translateX"));
+    setAttr ("Piece011"+".translateY") (getAttr ("myCube13.translateY")+0.5);
+    setAttr ("Piece011"+".translateZ") (getAttr ("myCube13.translateZ"));
+
+    setAttr ("Piece012"+".translateX") (getAttr ("myCube14.translateX"));
+    setAttr ("Piece012"+".translateY") (getAttr ("myCube14.translateY")+0.5);
+    setAttr ("Piece012"+".translateZ") (getAttr ("myCube14.translateZ"));
+
+    setAttr ("Piece013"+".translateX") (getAttr ("myCube15.translateX"));
+    setAttr ("Piece013"+".translateY") (getAttr ("myCube15.translateY")+0.5);
+    setAttr ("Piece013"+".translateZ") (getAttr ("myCube15.translateZ"));
+
+    setAttr ("Piece014"+".translateX") (getAttr ("myCube16.translateX"));
+    setAttr ("Piece014"+".translateY") (getAttr ("myCube16.translateY")+0.5);
+    setAttr ("Piece014"+".translateZ") (getAttr ("myCube16.translateZ"));
+
+    setAttr ("Piece015"+".translateX") (getAttr ("myCube17.translateX"));
+    setAttr ("Piece015"+".translateY") (getAttr ("myCube17.translateY")+0.5);
+    setAttr ("Piece015"+".translateZ") (getAttr ("myCube17.translateZ"));
+
+
+    setAttr ("Piece10"+".translateX") (getAttr ("myCube60.translateX"));
+    setAttr ("Piece10"+".translateY") (getAttr ("myCube60.translateY")+0.5);
+    setAttr ("Piece10"+".translateZ") (getAttr ("myCube60.translateZ"));
+
+    setAttr ("Piece11"+".translateX") (getAttr ("myCube61.translateX"));
+    setAttr ("Piece11"+".translateY") (getAttr ("myCube61.translateY")+0.5);
+    setAttr ("Piece11"+".translateZ") (getAttr ("myCube61.translateZ"));
+
+    setAttr ("Piece12"+".translateX") (getAttr ("myCube62.translateX"));
+    setAttr ("Piece12"+".translateY") (getAttr ("myCube62.translateY")+0.5);
+    setAttr ("Piece12"+".translateZ") (getAttr ("myCube62.translateZ"));
+
+    setAttr ("Piece13"+".translateX") (getAttr ("myCube63.translateX"));
+    setAttr ("Piece13"+".translateY") (getAttr ("myCube63.translateY")+0.5);
+    setAttr ("Piece13"+".translateZ") (getAttr ("myCube63.translateZ"));
+
+    setAttr ("Piece14"+".translateX") (getAttr ("myCube64.translateX"));
+    setAttr ("Piece14"+".translateY") (getAttr ("myCube64.translateY")+0.5);
+    setAttr ("Piece14"+".translateZ") (getAttr ("myCube64.translateZ"));
+
+    setAttr ("Piece15"+".translateX") (getAttr ("myCube65.translateX"));
+    setAttr ("Piece15"+".translateY") (getAttr ("myCube65.translateY")+0.5);
+    setAttr ("Piece15"+".translateZ") (getAttr ("myCube65.translateZ"));
+
+    setAttr ("Piece16"+".translateX") (getAttr ("myCube66.translateX"));
+    setAttr ("Piece16"+".translateY") (getAttr ("myCube66.translateY")+0.5);
+    setAttr ("Piece16"+".translateZ") (getAttr ("myCube66.translateZ"));
+
+    setAttr ("Piece17"+".translateX") (getAttr ("myCube67.translateX"));
+    setAttr ("Piece17"+".translateY") (getAttr ("myCube67.translateY")+0.5);
+    setAttr ("Piece17"+".translateZ") (getAttr ("myCube67.translateZ"));
+
+    setAttr ("Piece18"+".translateX") (getAttr ("myCube70.translateX"));
+    setAttr ("Piece18"+".translateY") (getAttr ("myCube70.translateY")+0.5);
+    setAttr ("Piece18"+".translateZ") (getAttr ("myCube70.translateZ"));
+
+    setAttr ("Piece19"+".translateX") (getAttr ("myCube71.translateX"));
+    setAttr ("Piece19"+".translateY") (getAttr ("myCube71.translateY")+0.5);
+    setAttr ("Piece19"+".translateZ") (getAttr ("myCube71.translateZ"));
+
+    setAttr ("Piece110"+".translateX") (getAttr ("myCube72.translateX"));
+    setAttr ("Piece110"+".translateY") (getAttr ("myCube72.translateY")+0.5);
+    setAttr ("Piece110"+".translateZ") (getAttr ("myCube72.translateZ"));
+
+    setAttr ("Piece111"+".translateX") (getAttr ("myCube73.translateX"));
+    setAttr ("Piece111"+".translateY") (getAttr ("myCube73.translateY")+0.5);
+    setAttr ("Piece111"+".translateZ") (getAttr ("myCube73.translateZ"));
+
+    setAttr ("Piece112"+".translateX") (getAttr ("myCube74.translateX"));
+    setAttr ("Piece112"+".translateY") (getAttr ("myCube74.translateY")+0.5);
+    setAttr ("Piece112"+".translateZ") (getAttr ("myCube74.translateZ"));
+
+    setAttr ("Piece113"+".translateX") (getAttr ("myCube75.translateX"));
+    setAttr ("Piece113"+".translateY") (getAttr ("myCube75.translateY")+0.5);
+    setAttr ("Piece113"+".translateZ") (getAttr ("myCube75.translateZ"));
+
+    setAttr ("Piece114"+".translateX") (getAttr ("myCube76.translateX"));
+    setAttr ("Piece114"+".translateY") (getAttr ("myCube76.translateY")+0.5);
+    setAttr ("Piece114"+".translateZ") (getAttr ("myCube76.translateZ"));
+
+    setAttr ("Piece115"+".translateX") (getAttr ("myCube77.translateX"));
+    setAttr ("Piece115"+".translateY") (getAttr ("myCube77.translateY")+0.5);
+    setAttr ("Piece115"+".translateZ") (getAttr ("myCube77.translateZ"));
+
+
+
+
+
+}
+
+
+
+proc resetCubes (string $shader1,string $shader2) {
+    string $tempName="";
+    int $count = 0;
+
+    for ($i=0;$i<8;$i++)
+        {
+            for ($j=0;$j<8;$j++)
+            {
+                $tempName="myCube" + $i +$j;
+                select $tempName;
+                delete ;
+            }
+      makeCubes($shader1,$shader2) ;  
+    }
+}
+
+proc findValues () {
+
+int $myNumColDef = `intSliderGrp -q -value "ColDef"`;
+int $j= `intSliderGrp -q -value "RowDef"`;
+
+print $myNumColDef;
+print $j;
+
+
+string $test1="";
+string $test2="";
+
+switch($myNumColDef ) {
+case 1:
+for ($i=0;$i<7;$i++)
+{
+
+        $test1 = "myCube" + $i+$j;
+        $test2 = "myCube" + ($i+4)+($j+4);
+
+        setAttr ($test1+".translateY") (0);
+        setAttr ($test2+".translateY") (0);
+    
+}
+
+break;
+case 2:
+for ($i=0;$i<7;$i++)
+{
+ 
+        $test1 = "myCube" + $i+$j;
+        $test2 = "myCube" + (7-$i)+(7-$j);
+
+        setAttr ($test1+".translateY") ($myNumColDef * $i*0.1);
+
+        setAttr ($test2+".translateY") ($myNumColDef * $i*0.1);
+    
+}
+print( "2 pressed\n" );
+break;
+case 3:
+for ($i=0;$i<7;$i++)
+{
+ 
+        $test1 = "myCube" +  $i+$j;
+        $test2 = "myCube" + (7-$i)+(7-$j);
+
+        setAttr ($test1+".translateY") ($myNumColDef * $i*0.15);
+
+        setAttr ($test2+".translateY") ($myNumColDef * $i*0.15);
+    
+}
+
+print( "3 pressed\n" );
+break;
+case 4:
+for ($i=0;$i<7;$i++)
+{
+  
+        $test1 = "myCube" + $i+$j;
+        $test2 = "myCube" + (7-$i)+(7-$j);
+
+        setAttr ($test1+".translateY") ($myNumColDef * $i*0.2);
+
+        setAttr ($test2+".translateY") ($myNumColDef * $i*0.2);
+    
+}
+print( "4 pressed\n" );
+break;
+
+default:
+break;
+}
+
+}
